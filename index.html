@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+<link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+  <meta charset="utf-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+  <title>CodePen - PAC-MAN Password Reveal w/ GSAP </title>
+
+  <link rel="stylesheet" media="screen" href="https://static.codepen.io/assets/fullpage/fullpage-4de243a40619a967c0bf13b95e1ac6f8de89d943b7fc8710de33f681fe287604.css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,700italic,900,900italic" rel="stylesheet" />
+
+  
+<link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+
+
+  <title>CodePen - PAC-MAN Password Reveal w/ GSAP </title>
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+  <style>
+    html { font-size: 15px; }
+    html, body { margin: 0; padding: 0; min-height: 100%; }
+    body { height:100%; display: flex; flex-direction: column; }
+    .referer-warning {
+      background: black;
+      box-shadow: 0 2px 5px rgba(0,0,0, 0.5);
+      padding: 0.75em;
+      color: white;
+      text-align: center;
+      font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+      line-height: 1.2;
+      font-size: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .referer-warning h1 { font-size: 1.2rem; margin: 0; }
+    .referer-warning a { color: #56bcf9; } /* $linkColorOnBlack */
+  </style>
+</head>
+
+<body class="">
+
+  <div id="result-iframe-wrap" role="main">
+
+    <iframe
+      id="result"
+      srcdoc="
+<!DOCTYPE html>
+<html lang=&quot;en&quot; >
+
+<head>
+
+  <meta charset=&quot;UTF-8&quot;>
+  
+<link rel=&quot;apple-touch-icon&quot; type=&quot;image/png&quot; href=&quot;https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png&quot; />
+<meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;CodePen&quot;>
+
+<link rel=&quot;shortcut icon&quot; type=&quot;image/x-icon&quot; href=&quot;https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico&quot; />
+
+<link rel=&quot;mask-icon&quot; type=&quot;&quot; href=&quot;https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg&quot; color=&quot;#111&quot; />
+
+
+  <title>CodePen - PAC-MAN Password Reveal w/ GSAP </title>
+  
+  <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css&quot;>
+
+  
+  
+<style>
+* {
+  box-sizing: border-box;
+}
+:root {
+  --bg: #011e3c;
+  --input: #999;
+  --pac: #fffb00;
+  --border: #0929dc;
+  --border--hover: #4560f7;
+  --border--active: #1436f5;
+  --ghost--green: #24fbff;
+  --ghost--pink: #fe9fcb;
+  --ghost--orange: #fc0;
+  --ghost--red: #f03000;
+  --track--dot: #fafafa;
+  --size: 30px;
+  --width: 300px;
+  --height: 50px;
+  --font: 24px;
+  --speed: 0.25s;
+}
+html,
+body {
+  background: var(--bg);
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+}
+.pac-input {
+  position: relative;
+  overflow: hidden;
+  border: 6px solid var(--border);
+  border-radius: 8px;
+  -webkit-transition: border-color 0.1;
+  transition: border-color 0.1;
+}
+.pac-input__wrap {
+  border-radius: 8px;
+  box-shadow: 0 20px 20px -20px #000;
+}
+.pac-input > input {
+  border: 0;
+  border-radius: 0;
+  font-size: var(--font);
+  line-height: var(--font);
+  padding: 6px 45px 6px 12px;
+  letter-spacing: 1px;
+  width: var(--width);
+  height: var(--height);
+  background: var(--input);
+}
+.pac-input > input:focus {
+  outline: transparent;
+}
+.pac-input__cloak {
+  background-color: $var(--input);
+  width: 100%;
+  height: var(--size);
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  -webkit-transform: translate(-24px, -50%);
+          transform: translate(-24px, -50%);
+}
+.pac-input__ghost {
+  cursor: pointer;
+  height: var(--size);
+  width: 100%;
+  position: absolute;
+  right: 105%;
+  top: 50%;
+  width: var(--size);
+  border-radius: 100% 100% 0 0;
+  position: absolute;
+  z-index: 1;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  clip-path: polygon(15% 100%, 0 85%, 0 0, 100% 0, 100% 85%, 85% 100%, 66% 85%, 50% 100%, 30% 85%);
+  -webkit-clip-path: polygon(15% 100%, 0 85%, 0 0, 100% 0, 100% 85%, 85% 100%, 66% 85%, 50% 100%, 30% 85%);
+}
+.pac-input__ghost-eyes {
+  height: 6px;
+  width: 20px;
+  position: absolute;
+  top: 8px;
+  left: 5px;
+}
+.pac-input__ghost-eyes:before,
+.pac-input__ghost-eyes:after {
+  border-radius: 100%;
+  content: '';
+  height: 6px;
+  width: 6px;
+  background: radial-gradient(circle at 30% 60%, #00f 0, #00f 25%, #fff 25%, #fff 100%);
+  position: absolute;
+}
+.pac-input__ghost-eyes:after {
+  left: 8px;
+}
+.pac-input__pac {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  height: var(--size);
+  width: var(--size);
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  z-index: 1;
+}
+.pac-input__pac--chomping:before {
+  -webkit-animation-name: chomp--1;
+          animation-name: chomp--1;
+}
+.pac-input__pac--chomping:after {
+  -webkit-animation-name: chomp--2;
+          animation-name: chomp--2;
+}
+.pac-input__pac:before,
+.pac-input__pac:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  border-radius: 100%;
+  border: calc(var(--size) / 2) solid var(--pac);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+  -webkit-animation-duration: var(--speed);
+          animation-duration: var(--speed);
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+.pac-input__pac:before {
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+}
+.pac-input__pac:after {
+  border-top-color: transparent;
+  border-right-color: transparent;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+}
+@-webkit-keyframes chomp--1 {
+  0%, 100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
+}
+@keyframes chomp--1 {
+  0%, 100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
+}
+@-webkit-keyframes chomp--2 {
+  0%, 100% {
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+  }
+  50% {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
+}
+@keyframes chomp--2 {
+  0%, 100% {
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+  }
+  50% {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage(&quot;resize&quot;, &quot;*&quot;);
+  }
+</script>
+
+
+</head>
+
+<body translate=&quot;no&quot; >
+  <div class=&quot;pac-input__wrap&quot;>
+  <div class=&quot;pac-input&quot;>
+    <input data-lpignore=&quot;true&quot; type=&quot;password&quot; value=&quot;chomprulz&quot; autocomplete=&quot;off&quot;/><a class=&quot;pac-input__pac&quot;></a><a class=&quot;pac-input__ghost&quot;>
+      <div class=&quot;pac-input__ghost-eyes&quot;></div></a>
+    <div class=&quot;pac-input__cloak&quot;></div>
+  </div>
+</div>
+    <script src=&quot;https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js&quot;></script>
+
+  <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
+  
+      <script id=&quot;rendered-js&quot; >
+const {
+  gsap: {
+    timeline,
+    set,
+    utils: { random } } } =
+
+window;
+
+const AUDIO = {
+  CLICK: new Audio('https://assets.codepen.io/605876/click.mp3'),
+  IN: new Audio('https://assets.codepen.io/605876/pac-in.mp3'),
+  OUT: new Audio('https://assets.codepen.io/605876/pac-out.mp3') };
+
+
+const CONTAINER = document.querySelector('.pac-input');
+const PAC = CONTAINER.querySelector('.pac-input__pac');
+const GHOST = CONTAINER.querySelector('.pac-input__ghost');
+const EYES = GHOST.querySelector('.pac-input__ghost-eyes');
+const INPUT = CONTAINER.querySelector('input');
+const CLOAK = CONTAINER.querySelector('.pac-input__cloak');
+
+const COLORS = {
+  INPUT: 'hsl(0, 0%, 60%)',
+  BG: 'hsl(0, 0%, 0%)',
+  GHOST: ['orange', 'green', 'pink', 'red'] };
+
+const DURATIONS = {
+  ENV: 0.15,
+  CHOMP: 1,
+  GHOST: 1,
+  EYES: 0.5 };
+
+
+const BLINK = () => {
+  const delay = random(2, 6);
+  timeline().to(EYES, {
+    delay,
+    onComplete: () => BLINK(),
+    scaleY: 0.1,
+    repeat: 3,
+    yoyo: true,
+    duration: 0.05 });
+
+};
+BLINK();
+
+const hidePassword = () => {
+  timeline({
+    onStart: () => AUDIO.CLICK.play(),
+    onComplete: () => {
+      AUDIO.OUT.pause();
+      AUDIO.OUT.currentTime = 0;
+    } }).
+
+  to(GHOST, {
+    duration: DURATIONS.EYES,
+    right: '105%',
+    ease: 'none',
+    onStart: () => {
+      AUDIO.OUT.play();
+      set(GHOST, { backgroundColor: COLORS.INPUT });
+    } }).
+
+  to(
+  CLOAK,
+  {
+    duration: DURATIONS.EYES,
+    onComplete: () => {
+      set(PAC, { right: 10, scale: 0 });
+      set(INPUT, { attr: { type: 'password' } });
+    },
+    left: -5,
+    ease: 'none' },
+
+  0).
+
+  to(CLOAK, DURATIONS.ENV, {
+    duration: DURATIONS.ENV,
+    opacity: 0,
+    onComplete: () => {
+      set(CLOAK, { left: '100%', opacity: 1 });
+    } }).
+
+  to(
+  PAC,
+  {
+    duration: DURATIONS.ENV,
+    scale: 1 },
+
+  DURATIONS.EYES);
+
+};
+
+const showPassword = () => {
+  timeline({
+    onStart: () => AUDIO.CLICK.play(),
+    onComplete: () => {
+      AUDIO.IN.pause();
+      AUDIO.IN.currentTime = 0;
+    } }).
+
+  to(INPUT, {
+    duration: DURATIONS.ENV,
+    onStart: () => {
+      set(GHOST, {
+        backgroundColor: `var(--ghost--${
+        COLORS.GHOST[Math.floor(Math.random() * COLORS.GHOST.length)]
+        })` });
+
+    },
+    letterSpacing: 15,
+    backgroundColor: COLORS.BG,
+    color: 'hsl(0, 0, 98%)' }).
+
+  to(
+  CLOAK,
+  {
+    duration: DURATIONS.ENV,
+    backgroundColor: COLORS.BG },
+
+  0).
+
+  to(PAC, DURATIONS.CHOMP, {
+    duration: DURATIONS.CHOMP,
+    right: '105%',
+    ease: 'none',
+    onStart: () => {
+      AUDIO.IN.play();
+      PAC.classList.add('pac-input__pac--chomping');
+    },
+    onComplete: () => {
+      PAC.classList.remove('pac-input__pac--chomping');
+      set(INPUT, { attr: { type: 'text' } });
+    } }).
+
+  to(
+  CLOAK,
+  {
+    duration: DURATIONS.CHOMP,
+    left: -5,
+    ease: 'none' },
+
+  '<').
+
+  to(GHOST, {
+    duration: DURATIONS.GHOST,
+    right: 10,
+    ease: 'none' }).
+
+
+  to(
+  CLOAK,
+  {
+    duration: DURATIONS.GHOST,
+    left: '100%',
+    ease: 'none' },
+
+  '<').
+
+  to(INPUT, {
+    duration: DURATIONS.ENV,
+    letterSpacing: 1,
+    backgroundColor: COLORS.INPUT,
+    color: 'black' }).
+
+  to(
+  CLOAK,
+  {
+    duration: DURATIONS.ENV,
+    backgroundColor: COLORS.INPUT },
+
+  '<');
+
+};
+
+PAC.addEventListener('click', showPassword);
+GHOST.addEventListener('click', hidePassword);
+//# sourceURL=pen.js
+    </script>
+
+  
+
+</body>
+
+</html>
+ 
+"
+      sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-presentation  allow-scripts allow-top-navigation-by-user-activation" allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; microphone; midi; payment; vr" allowTransparency="true"
+      allowpaymentrequest="true" allowfullscreen="true" class="result-iframe">
+      </iframe>
+
+  </div>
+</body>
+</html>
